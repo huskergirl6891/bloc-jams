@@ -29,6 +29,21 @@ var albumMarconi = {
     ]
 };
 
+var albumSandiego = {
+    title: 'Where Am I?',
+    artist: 'Carmen Sandiego',
+    label: 'Global',
+    year: '1985',
+    albumArtUrl: 'assets/images/album_covers/18.png',
+    songs: [
+        { title: 'China', duration: '3:18' },
+        { title: 'Brazil', duration: '2:46' },
+        { title: 'France', duration: '4:53'},
+        { title: 'Canada', duration: '1:24' },
+        { title: 'Norway', duration: '3:37'}
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -66,4 +81,17 @@ var createSongRow = function(songNumber, songName, songLength) {
 
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
+     var temp = 1;
+     var albums = [albumPicasso, albumMarconi, albumSandiego];
+     document.getElementsByClassName('album-cover-art')[0].addEventListener("click", function(event){
+       setCurrentAlbum(albums[temp]);
+       if(temp == albums.length - 1){
+         temp = 0;
+       }
+       else {
+         temp = temp + 1;
+       }
+
+     });
+
  };
