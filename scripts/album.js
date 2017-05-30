@@ -29,10 +29,25 @@ var albumMarconi = {
     ]
 };
 
+var albumSandiego = {
+    title: 'Where Am I?',
+    artist: 'Carmen Sandiego',
+    label: 'Global',
+    year: '1985',
+    albumArtUrl: 'assets/images/album_covers/18.png',
+    songs: [
+        { title: 'China', duration: '3:18' },
+        { title: 'Brazil', duration: '2:46' },
+        { title: 'France', duration: '4:53'},
+        { title: 'Canada', duration: '1:24' },
+        { title: 'Norway', duration: '3:37'}
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
-      + '  <td class="song-item-number">' + songNumber + '</td>'
+      + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
       + '  <td class="song-item-duration">' + songLength + '</td>'
       + '</tr>'
@@ -41,7 +56,7 @@ var createSongRow = function(songNumber, songName, songLength) {
      return template;
  };
 
- var setCurrentAlbum = function(album) {
+var setCurrentAlbum = function(album) {
      // #1
      var albumTitle = document.getElementsByClassName('album-view-title')[0];
      var albumArtist = document.getElementsByClassName('album-view-artist')[0];
@@ -64,6 +79,41 @@ var createSongRow = function(songNumber, songName, songLength) {
      }
  };
 
+ var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+ var songRows = document.getElementsByClassName('album-view-song-item');
+
+ // Album button templates
+ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
+
+     songListContainer.addEventListener('mouseover', function(event) {
+       // Only target individual song rows during event delegation
+       if (event.target.parentElement.className === 'album-view-song-item') {
+           // Change the content from the number to the play button's HTML
+           event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+       }
+     });
+
+     for (var i = 0; i < songRows.length; i++) {
+         songRows[i].addEventListener('mouseleave', function(event) {
+           // Selects first child element, which is the song-item-number element
+           this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+         });
+     }
+
+     var temp = 1;
+     var albums = [albumPicasso, albumMarconi, albumSandiego];
+     document.getElementsByClassName('album-cover-art')[0].addEventListener("click", function(event){
+       setCurrentAlbum(albums[temp]);
+       if(temp == albums.length - 1){
+         temp = 0;
+       }
+       else {
+         temp = temp + 1;
+       }
+
+     });
+
  };
