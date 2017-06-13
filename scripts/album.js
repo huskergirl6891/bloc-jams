@@ -77,10 +77,11 @@ var createSongRow = function(songNumber, songName, songLength) {
      var onHover = function(event) {
          //Refactored using jquery
          var songNumberCell = $(this).find('song-item-number');
-         var songNumber = $songNumberCell.attr('data-song-number');
+         var songNumber = songNumberCell.attr('data-song-number');
          if (songNumber !== currentlyPlayingSong) {
              songNumberCell.html(playButtonTemplate);
          }
+
      };
      var offHover = function(event) {
 
