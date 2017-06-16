@@ -164,6 +164,43 @@ var setCurrentAlbum = function(album) {
 
  };
 
+ var changeSong = function() {
+   var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+
+   //if previous button clicked do the following
+   if(){
+     currentSongIndex -= 1;
+
+     //if index is first song in the list
+     if(currentSongIndex < 0) {
+       //previous song is the last song in the the list
+       currentSongIndex = currentAlbum.songs.length - 1;
+     }
+   }
+
+   //if next button clicked do the following
+   if(){
+     currentSongIndex += 1;
+
+     //if index is last song in the list
+     if(currentSongIndex == currentAlbum.songs.length) {
+       //next song is the first song in the the list
+       currentSongIndex = 0;
+     }
+   }
+
+   var lastSongNumber = currentlyPlayingSongNumber;
+
+   setSong(currentSongIndex + 1);
+   updatePlayerBarSong();
+
+   var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+   var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
+
+   $previousSongNumberCell.html(pauseButtonTemplate);
+   $lastSongNumberCell.html(lastSongNumber);
+ };
+
  var setSong = function(songNumber) {
    currentlyPlayingSongNumber = songNumber;
    currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
