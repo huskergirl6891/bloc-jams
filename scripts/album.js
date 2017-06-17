@@ -106,6 +106,8 @@ var setCurrentAlbum = function(album) {
              var $seekBar = $('.seek-control .seek-bar');
 
              updateSeekPercentage($seekBar, seekBarFillRatio);
+             var timer = filterTimeCode(this.getTime());
+             setCurrentTimeInPlayerBar(timer);
          });
      }
  };
@@ -262,6 +264,8 @@ var setCurrentAlbum = function(album) {
    $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
    $('.currently-playing .artist-name').text(currentAlbum.artist);
    $('.main-controls .play-pause').html(playerBarPauseButton);
+   var timer = filterTimeCode(currentSongFromAlbum.duration);
+   setTotalTimeInPlayerBar(timer);
 
  };
 
@@ -275,6 +279,31 @@ var setCurrentAlbum = function(album) {
    if (currentSoundFile) {
          currentSoundFile.setVolume(volume);
      }
+ };
+
+ var setCurrentTimeInPlayerBar = function(currentTime) {
+   var playerBarTime = $('.currently-playing .current-time');
+   playerBarTime.text(currentTime);
+ };
+
+ var setTotalTimeInPlayerBar = function(totalTime) {
+   var playerBarSongLength = $('.currently-playing .total-time');
+   playerBarSongLength.text(totalTime);
+ };
+
+ var filterTimeCode = function(timeInSeconds) {
+   var secondsToFloat = parseFloat(timeInSeconds);
+   var minutes = Math.floor(secondsToFloat / 60);
+   var seconds = Math.floor(secondsToFloat - minutes * 60);
+   var secondsToString = "";
+   if(seconds<10) {
+     secondsToString = "0" + seconds.toString();
+   }
+   else {
+     secondsToString = seconds.toString();
+   }
+   var finalString = minutes.toString() + ":" + secondsToString;
+   return finalString;
  };
 
  // Album button templates
