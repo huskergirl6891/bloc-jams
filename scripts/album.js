@@ -277,6 +277,20 @@ var setCurrentAlbum = function(album) {
      }
  };
 
+ var togglePlayFromPlayerBar = function() {
+   var $currentSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+   if(currentSoundFile.isPaused()) {
+     $currentSongNumberCell.html(pauseButtonTemplate);
+     $('.main-controls .play-pause').html(playerBarPauseButton);
+     currentSoundFile.play();
+   }
+   else {
+     $currentSongNumberCell.html(playButtonTemplate);
+     $('.main-controls .play-pause').html(playerBarPlayButton);
+     currentSoundFile.pause();
+   }
+ };
+
  // Album button templates
  var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
  var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
@@ -291,12 +305,14 @@ var setCurrentAlbum = function(album) {
 
  var $previousButton = $('.main-controls .previous');
  var $nextButton = $('.main-controls .next');
+ var $toggleButton = $('.main-controls .play-pause');
 
  $(document).ready(function() {
      setCurrentAlbum(albumPicasso);
      setupSeekBars();
      $previousButton.click(previousSong);
      $nextButton.click(nextSong);
+     $toggleButton.click(togglePlayFromPlayerBar);
 
      var temp = 1;
      var albums = [albumPicasso, albumMarconi, albumSandiego];
